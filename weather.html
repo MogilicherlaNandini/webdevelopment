@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>weather app</title>
+        <link rel="stylesheet" href="weather.css">
+    </head>
+    <body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="enter city name">
+            <button><img src="https://cdn-icons-png.flaticon.com/128/7576/7576917.png"></button> 
+        </div>
+        <div class="weatherimg">
+            <img class="weather-icon" src="https://www.freeiconspng.com/thumbs/weather-icon-png/weather-icon-png-25.png" class="weather-icon">
+        <h1 class="temp">25c</h1>
+        <h2 class="city">India</h2>
+        <h3 class="condition"></h3>
+        <div class="details">
+            <div class="col">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/011/652/634/small/humidity-3d-render-icon-illustration-png.png">
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity</p>
+                </div>
+                <div class="col">
+                    <img src="https://i.pinimg.com/474x/5e/22/3b/5e223b9b13b2718ea54ed5720ab69ffc.jpg">
+                    <div>
+                        <p class="wind">50km/h</p>
+                        <p>windspeed</p>
+                    </div>
+    
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <script>
+const apikey="a54753e22e780713bfdea19e2bc1b872";
+const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const searchBox=document.querySelector(".search input");
+const searchBtn=document.querySelector(".search button");
+const weatherIcon=document.querySelector(".weather-icon");
+
+async function checkWeather(city)
+{
+    const response=await fetch(apiUrl + city+`&appid=${apikey}`);
+    var data=await response.json();
+    console.log(data);
+    document.querySelector(".city").innerHTML=data.name;
+    document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+"°C";
+    document.querySelector(".condition").innerHTML=data.weather[0].main;
+    document.querySelector(".humidity").innerHTML=data.main.humidity+"%";
+    document.querySelector(".wind").innerHTML=data.wind.speed+" km/h";
+
+if(data.weather[0].main=="Clouds")
+{
+    weatherIcon.src="images/cloud.png";
+}
+else if(data.weather[0].main=="Drizzle")
+{
+    weatherIcon.src="images/drizzle.png";
+}
+else if(data.weather[0].main=="Rain")
+{
+    weatherIcon.src="images/rain.png";
+}
+else if(data.weather[0].main=="Mist")
+{
+    weatherIcon.src="images/mist.png";
+}
+}
+
+searchBtn.addEventListener("click",()=>{
+    checkWeather(searchBox.value);
+})
+
+    </script>
+    </body>
+</html>
